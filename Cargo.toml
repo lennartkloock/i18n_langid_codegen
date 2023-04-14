@@ -9,3 +9,7 @@ edition = "2021"
 proc-macro = true
 
 [dependencies]
+quote = "1.0.26"
+
+serde = "1.0.160"
+serde_yaml = "0.9.21"
