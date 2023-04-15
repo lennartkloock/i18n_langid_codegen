@@ -149,7 +149,7 @@ fn gen_construct(
     if let Some(lang_id) = lang_id {
         let str = lang_id.to_string();
         values.push(quote!(
-            lang_id: ::unic_langid::LanguageIdentifier::from_str(#str).unwrap()
+            lang_id: ::std::str::FromStr::from_str(#str).unwrap()
         ));
     }
     for (key, default_value) in default_mapping {
