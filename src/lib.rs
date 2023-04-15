@@ -29,20 +29,29 @@ pub fn i18n(input: TokenStream) -> TokenStream {
         }
     );
 
+    let mut lang_ids = vec![];
     let mut fns = vec![];
     for locale in read_dir(input.value()) {
         let content = fs::read_to_string(locale.path()).expect("failed to read file content");
         let parsed: serde_yaml::Mapping =
             serde_yaml::from_str(&content).expect("failed to parse file content as YAML");
-        let id = file_prefix(locale.path())
+        let id: LanguageIdentifier = file_prefix(locale.path())
             .parse()
             .expect("failed to parse prefix in file name as langid");
+        lang_ids.push(id.to_string());
         fns.push(gen_fn(&id, &default_mapping, &parsed));
     }
 
+    let lang_ids_ident = lang_ids.iter().map(|id| format_ident!("{}", id));
     quote!(
         #structs
         impl I18n {
+            pub fn from_lang_id(lang_id: &::unic_langid::LanguageIdentifier) -> ::std::option::Option<Self> {
+                match lang_id.to_string().as_str() {
+                    #(#lang_ids => Some(Self::#lang_ids_ident()),)*
+                    _ => None,
+                }
+            }
             #(#fns)*
         }
         #default_impl
@@ -106,6 +115,7 @@ fn gen_struct(name: Option<&Ident>, mapping: &serde_yaml::Mapping) -> proc_macro
     let struct_name = name.unwrap_or(&default_name);
     quote!(
         #(#structs)*
+        #[derive(::std::fmt::Debug)]
         pub struct #struct_name {
             #(pub #keys),*
         }
