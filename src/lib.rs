@@ -7,6 +7,7 @@ use std::{
     fs::DirEntry,
     path::{Path, PathBuf},
 };
+use convert_case::{Case, Casing};
 use syn::{parse_macro_input, LitStr};
 use unic_langid::LanguageIdentifier;
 
@@ -102,7 +103,7 @@ fn gen_struct(name: Option<&Ident>, mapping: &serde_yaml::Mapping) -> proc_macro
             Value::Mapping(m) => {
                 let key = key.as_str().expect("key was not a string");
                 let key_ident = format_ident!("{}", key);
-                let struct_name = format_ident!("{}", capitalize(key));
+                let struct_name = format_ident!("{}", struct_name(key));
                 structs.push(gen_struct(Some(&struct_name), m));
                 keys.push(quote!(
                     #key_ident: #struct_name
@@ -122,12 +123,8 @@ fn gen_struct(name: Option<&Ident>, mapping: &serde_yaml::Mapping) -> proc_macro
     )
 }
 
-fn capitalize(s: &str) -> String {
-    let mut c = s.chars();
-    match c.next() {
-        None => String::new(),
-        Some(f) => f.to_uppercase().collect::<String>() + c.as_str(),
-    }
+fn struct_name(s: &str) -> String {
+    s.to_case(Case::Pascal)
 }
 
 fn gen_fn(
@@ -175,7 +172,7 @@ fn gen_construct(
                 }
                 Value::Mapping(m) => {
                     let construct = gen_construct(
-                        &format_ident!("{}", capitalize(key)),
+                        &format_ident!("{}", struct_name(key)),
                         None,
                         m,
                         value.as_mapping().expect("failed to get value as mapping"),
@@ -195,7 +192,7 @@ fn gen_construct(
                 }
                 Value::Mapping(m) => {
                     let construct =
-                        gen_construct(&format_ident!("{}", capitalize(key)), None, m, m);
+                        gen_construct(&format_ident!("{}", struct_name(key)), None, m, m);
                     values.push(quote!(
                         #key_ident: #construct
                     ));
