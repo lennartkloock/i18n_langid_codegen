@@ -2,6 +2,13 @@
 name = "i18n_langid_codegen"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+authors = ["Lennart Kloock <lennart.kloock@protonmail.com>"]
+description = "Function-like proc macro for internationalization"
+repository = "https://github.com/lennartkloock/i18n_langid_codegen"
+keywords = ["proc-macro", "i18n", "internationalization"]
+categories = ["internationalization", "localization"]
+readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
