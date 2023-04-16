@@ -52,7 +52,7 @@ fn main() {
 ### Add dependencies
 
 ```shell
-cargo add unic-langid
+cargo add unic_langid --features macros
 cargo add i18n_langid_codegen
 ```
 
