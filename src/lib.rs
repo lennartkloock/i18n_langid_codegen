@@ -1,5 +1,6 @@
 //! See README.md
 
+use convert_case::{Case, Casing};
 use proc_macro::TokenStream;
 use proc_macro2::Ident;
 use quote::{format_ident, quote};
@@ -9,7 +10,6 @@ use std::{
     fs::DirEntry,
     path::{Path, PathBuf},
 };
-use convert_case::{Case, Casing};
 use syn::{parse_macro_input, LitStr};
 use unic_langid::LanguageIdentifier;
 
