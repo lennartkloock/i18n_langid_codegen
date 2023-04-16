@@ -1,11 +1,20 @@
 # `i18n_langid_codegen`
 
+<a href="https://crates.io/crates/i18n_langid_codegen">
+    <img src="https://img.shields.io/crates/v/i18n_langid_codegen.svg" alt="Crates.io version" />
+</a>
+
 Function-like proc macro for internationalization
 
 Generates structs and functions from a set of YAML files with support for
 the [`unic-langid` crate](https://crates.io/crates/unic-langid).
 
 Inspired by [`i18n_codegen` crate](https://crates.io/crates/i18n_codegen).
+
+> **Disclaimer**
+> 
+> This is my first macro, could contain bugs.
+> Feel free to suggest improvements.
 
 ## How to use it?
 
