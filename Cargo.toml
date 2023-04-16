@@ -1,6 +1,6 @@
 [package]
 name = "i18n_langid_codegen"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 license = "MIT"
 authors = ["Lennart Kloock <lennart.kloock@protonmail.com>"]
